@@ -5,7 +5,7 @@
 # Amaci:            CheckPoint R81 ve R81.10 surumlerinde zayif sertifika tiplerini otomatik kapatma.
 # Sahibi:           Feridun OZTOK
 # Versiyon:         1.1
-# Tarih:            27 Eylül 2022
+# Tarih:            27 Eylul 2022
 #====================================================================================================
 #
 #====================================================================================================

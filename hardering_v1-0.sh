@@ -4,8 +4,8 @@
 # Kullanim:         ./hardering.sh
 # Amaci:            CheckPoint R81 ve R81.10 surumlerinde zayif sertifika tiplerini otomatik kapatma.
 # Sahibi:           Feridun OZTOK
-# Versiyon:         1.1
-# Tarih:            27 Eylül 2022
+# Versiyon:         1.0
+# Tarih:            26 Eylül 2022
 #====================================================================================================
 #
 #====================================================================================================
@@ -66,7 +66,7 @@ echo
 echo
 echo *#######################################################*
 echo *#__________ CheckPoint SSL Hardering Script _________##*
-echo *#____________________ Version 1.1 ___________________##*
+echo *#____________________ Version 1.0 ___________________##*
 echo *#_____________ Creator by Feridun OZTOK _____________##*
 echo *#_ Egis Proje ve Danismanlik Bilisim Hiz. Ltd. Sti. _##*
 echo *#____________ support@egisbilisim.com.tr ____________##*
@@ -78,17 +78,10 @@ echo
 #====================================================================================================
 #Sistem surum denetimi.
 current_version=$(cat /etc/cp-release)
-sistemsurum=""
 if [[ $current_version == *"R81.10"* ]]; then
  echo "System Version  : R81.10"
- echo "Script calismaya uygun."
- sistemsurum="Dogru"
 elif [[ $current_version == *"R81"* ]]; then
  echo "System Version  : R81"
- sistemsurum="Dogru"
- echo "Script calismaya uygun."
-else
- echo "Script calismasi icin surum uygun degil!" 
 fi
 #====================================================================================================
 #
@@ -110,7 +103,6 @@ echo "System Uptime   :"$up_time
 #====================================================================================================
 #
 #====================================================================================================
-if [ $sistemsurum=="Dogru"]; then
 echo "CLI tarafinda basit imzalar kapatiliyor."
 clish -c "set ssh server cipher 3des-cbc off" 
 clish -c "set ssh server cipher aes128-cbc off" 
@@ -137,7 +129,6 @@ clish -c "set ssh server mac umac-64@openssh.com off"
 clish -c "set ssh server mac umac-128-etm@openssh.com on" 
 clish -c "set ssh server mac umac-128@openssh.com on" 
 clish -c "save config"
-fi
 #====================================================================================================
 #
 #====================================================================================================

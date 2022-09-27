@@ -4,7 +4,7 @@
 # Kullanim:         ./hardering.sh
 # Amaci:            CheckPoint R81.10 surumunda zayif sertifika tiplerini otomatik kapatma.
 # Sahibi:           Feridun OZTOK
-# Versiyon:         1.1
+# Versiyon:         1.2
 # Tarih:            27 Eylul 2022
 #====================================================================================================
 #
@@ -66,7 +66,7 @@ echo
 echo
 echo *#######################################################*
 echo *#__________ CheckPoint SSL Hardering Script _________##*
-echo *#____________________ Version 1.1 ___________________##*
+echo *#____________________ Version 1.2 ___________________##*
 echo *#_____________ Creator by Feridun OZTOK _____________##*
 echo *#_ Egis Proje ve Danismanlik Bilisim Hiz. Ltd. Sti. _##*
 echo *#____________ support@egisbilisim.com.tr ____________##*
@@ -89,10 +89,8 @@ fi
 #
 #====================================================================================================
 #Sistem tipi.
-sistemtip=0
 if [[ $($CPDIR/bin/cpprod_util FwIsFirewallModule 2> /dev/null) == *"1"*  ]]; then
    echo  "System Type     : System Type Gateway"
-   sistemtip=1
 elif [[ $($CPDIR/bin/cpprod_util FwIsFirewallMgmt 2> /dev/null) == *"1"*  ]]; then
    echo "System Type     : Management Server"
 fi
@@ -140,53 +138,14 @@ fi
 clish -c "lock database override" >> /dev/null 2>&1
 clish -c "lock database override" >> /dev/null 2>&1
 #====================================================================================================
-#SSH tarafindaki diffie helman group 1 kapatiliyor.
+#SSH tarafindaki diffie helman group 1 group 14 ile degistiriliyor.
+#SSH tarafindaki diffie helman group exchange-sha1 exchange-sha256 1ile degistiriliyor
+if [[ $sistemsurum=="Dogru" ]]; then
 echo "SSH tarafinda Diffie Hellman Group1 kapatiliyor."
-sed -i 's/KexAlgorithms +diffie-hellman-group1-sha1/#KexAlgorithms +diffie-hellman-group1-sha1/' /etc/ssh/templates/sshd_config.templ
+sed -i 's/KexAlgorithms +diffie-hellman-group1-sha1/KexAlgorithms +diffie-hellman-group14-sha1/' /etc/ssh/templates/sshd_config.templ
+sed -i 's/KexAlgorithms +diffie-hellman-group-exchange-sha1/KexAlgorithms +diffie-hellman-group-exchange-sha256/' /etc/ssh/templates/sshd_config.templ
 /bin/sshd_template_xlate < /config/active
 service sshd reload
-#====================================================================================================
-#
-#====================================================================================================
-#Gateway icin basit imzalar devre disi birakiliyor.
-if [ $sistemtip == 1 ]; then
-echo "Multi Portaltarafinda basit imzalar kapatiliyor."
-cd $FWDIR/conf
-mv multi_portal_cipher_priority.conf multi_portal_cipher_priority.orj
-echo "(" >> multi_portal_cipher_priority.conf
-echo "        :version (3)" >> multi_portal_cipher_priority.conf
-echo "        :tls_1_2_cipher_suites (" >> multi_portal_cipher_priority.conf
-echo "                :list_name ("TLS 1.2 Ciphers")" >> multi_portal_cipher_priority.conf
-echo "                :allowed (" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_3DES_EDE_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_RC4_128_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_RC4_128_MD5)" >> multi_portal_cipher_priority.conf
-echo "                )" >> multi_portal_cipher_priority.conf
-echo "                :forbidden (" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_128_GCM_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_256_GCM_SHA384)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_128_CBC_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_256_CBC_SHA256)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_128_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                        : (TLS_RSA_WITH_AES_256_CBC_SHA)" >> multi_portal_cipher_priority.conf
-echo "                )" >> multi_portal_cipher_priority.conf
-echo "        )" >> multi_portal_cipher_priority.conf
-echo ")" >> multi_portal_cipher_priority.conf
-chmod --reference=multi_portal_cipher_priority.orj multi_portal_cipher_priority.conf
 fi
 #====================================================================================================
 #

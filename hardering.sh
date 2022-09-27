@@ -2,7 +2,7 @@
 #====================================================================================================
 # Baslik:           hardering.sh
 # Kullanim:         ./hardering.sh
-# Amaci:            CheckPoint R81 ve R81.10 surumlerinde zayif sertifika tiplerini otomatik kapatma.
+# Amaci:            CheckPoint R81.10 surumunda zayif sertifika tiplerini otomatik kapatma.
 # Sahibi:           Feridun OZTOK
 # Versiyon:         1.1
 # Tarih:            27 Eylul 2022
@@ -83,10 +83,6 @@ if [[ $current_version == *"R81.10"* ]]; then
  echo "System Version  : R81.10"
  echo "Script calismaya uygun."
  sistemsurum="Dogru"
-elif [[ $current_version == *"R81"* ]]; then
- echo "System Version  : R81"
- sistemsurum="Dogru"
- echo "Script calismaya uygun."
 else
  echo "Script calismasi icin surum uygun degil!" 
 fi
@@ -110,7 +106,7 @@ echo "System Uptime   :"$up_time
 #====================================================================================================
 #
 #====================================================================================================
-if [ $sistemsurum=="Dogru"]; then
+if [[ $sistemsurum=="Dogru" ]]; then
 echo "CLI tarafinda basit imzalar kapatiliyor."
 clish -c "set ssh server cipher 3des-cbc off" 
 clish -c "set ssh server cipher aes128-cbc off" 

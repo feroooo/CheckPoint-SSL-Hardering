@@ -1,8 +1,9 @@
 # CheckPoint SSL Hardering
 Bu script Feridun ÖZTOK tarafından CheckPoint R81.10 üzerinde varsayılan açık gelen zayıf şifreleme methotlarının devre dışı bırakılması için yazılmıştır. 
 
+Sistem üzerinde özel tanım ya da HotFix olabileceğini göz önününde bulundurarak işlemleri gerçekleştirin. Elinizde mutlaka sağlam bir yedek olmasına dikkat edin.
 
-İşlerin ters gitmesi durumunda; expert modda sshd_config_.templ dosyasının tekrar düzenlenmesi ve CLI modunda kapatılan şifreleme methotlarının aktif edilmesi gerekmektedir.
+İşlerin ters gitmesi ve yedeğinizin olmaması durumunda; expert modda sshd_config_.templ dosyasının tekrar düzenlenmesi ve CLI modunda kapatılan şifreleme methotlarının aktif edilmesi gerekmektedir.
 
 ```
 vi /etc/ssh/templates/sshd_config.templ
@@ -28,3 +29,4 @@ set ssh server mac umac-64@openssh.com on
 save config
 ```
 
+Saygılarımla.

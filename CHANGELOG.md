@@ -3,7 +3,7 @@
 #
 <p><h2>Test Edilmemiş Sürüm V1.1 - 27 Eylül 2022</h2></p>
 <p><h3>Eklenen</h3></p>
-<p>Versiyon kontrol özellliği eklendi. Eğer Versiyon R81 ya da R81.10 değilse script içindeki elemanlar görev yapmayacaktır./p>
+<p>Versiyon kontrol özellliği eklendi. Eğer versiyon R81 ya da R81.10 değilse script içindeki elemanlar görev yapmayacaktır.</p>
 <p><h3>Çıkarılan</h3></p>
 <p>N/A</p>
 <p><h3>Değiştirilen</h3></p>

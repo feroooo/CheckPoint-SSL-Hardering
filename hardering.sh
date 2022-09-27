@@ -80,8 +80,7 @@ echo
 current_version=$(cat /etc/cp-release)
 sistemsurum=""
 if [[ $current_version == *"R81.10"* ]]; then
- echo "System Version  : R81.10"
- echo "Script calismaya uygun."
+ echo "System Version  : R81.10 - Script calismaya uygun"
  sistemsurum="Dogru"
 else
  echo "Script calismasi icin surum uygun degil!" 

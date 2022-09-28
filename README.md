@@ -17,7 +17,7 @@ TLS_RSA_WITH_AES_256_GCM_SHA384
 
 Sistem üzerinde özel tanım ya da HotFix olabileceğini göz önününde bulundurarak işlemleri gerçekleştirin. Elinizde mutlaka sağlam bir yedek olmasına dikkat edin.
 
-İşlerin ters gitmesi ve yedeğinizin olmaması durumunda; expert modda sshd_config_.templ dosyasının tekrar düzenlenmesi ve CLI modunda kapatılan şifreleme metotlarının aktif edilmesi gerekmektedir.
+İşlerin ters gitmesi ve yedeğinizin olmaması durumunda; expert ve CLI'da işletim sisteminize uygun çözümleri uygulamanız gerekmektedir.
 
 # SSH geri alma yöntemi 1
 ```

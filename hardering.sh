@@ -258,6 +258,11 @@ if [[ "$sistemsurum" == "Klasik" ]]; then
 	sed -i 's/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}TLSv1.2/' /web/templates/httpd-ssl.conf.templ
 	echo "httpd-ssl.conf.templ icin yazma yetkisi kaldiriliyor."
 	chmod u-w /web/templates/httpd-ssl.conf.templ
+	/bin/template_xlate : /web/templates/httpd-ssl.conf.templ /web/conf/extra/httpd-ssl.conf < /config/active
+	echo
+	echo "httpd servisi yeniden baslatiliyor."
+	tellpm process:httpd2
+	tellpm process:httpd2 t
 	echo
 fi
 #====================================================================================================

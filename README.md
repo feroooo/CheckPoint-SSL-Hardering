@@ -4,6 +4,8 @@ Bu script Feridun ÖZTOK tarafından CheckPoint R81 ve R81.10 üzerinde varsayı
 Script ile düzenlenmeyen multi_portal_cipher_priority.conf dosyasını için expert modda cipher_util uygulamasını kullanmanız gerekmektedir. Rapid7 ile yapılan zafiyet taraması sonucu aşağıdaki metotları devre dışı bırakabilirsiniz.
 İlgili döküman <a href="https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk126613" target="_blank">sk126613</a>
 
+R81 için uygulanan makale <a href="https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk147272" target="_blank">sk147272</a>
+
 ```
 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA

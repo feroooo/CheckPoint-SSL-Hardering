@@ -254,8 +254,8 @@ if [[ "$sistemsurum" == "Klasik" ]]; then
 	chmod u+w /web/templates/httpd-ssl.conf.templ
 	echo "SSLCipherSuite metotlari degistiriliyor."
 	sed -i 's/SSLCipherSuite HIGH:!RC4:!LOW:!EXP:!aNULL:!SSLv2:!MD5/SSLCipherSuite ECDHE-RSA-AES256-SHA384:AES256-SHA256:!ADH:!EXP:RSA:+HIGH:+MEDIUM:!MD5:!LOW:!NULL:!SSLv2:!eNULL:!aNULL:!RC4:!SHA1/' /web/templates/httpd-ssl.conf.templ
-	echo "SSLv3 TLSv1 TLSv1.1 kapatiliyor."
-	sed -i 's/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}TLSv1.2/' /web/templates/httpd-ssl.conf.templ
+	echo "SSLv3 TLSv1 kapatiliyor."
+	sed -i 's/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}TLSv1.1 +TLSv1.2/' /web/templates/httpd-ssl.conf.templ
 	echo "httpd-ssl.conf.templ icin yazma yetkisi kaldiriliyor."
 	chmod u-w /web/templates/httpd-ssl.conf.templ
 	/bin/template_xlate : /web/templates/httpd-ssl.conf.templ /web/conf/extra/httpd-ssl.conf < /config/active

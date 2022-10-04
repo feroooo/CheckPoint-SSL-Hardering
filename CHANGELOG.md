@@ -1,6 +1,14 @@
 <body>
   <h1>Change Log</h1>
 
+<p><h2>Sürüm V1.4 - 4 Ekim 2022</h2></p>
+<p><h3>Eklenen</h3></p>
+<p>R81 için SSH Cipher ve MACs değiştirme özelliği eklendi.</p>
+<p><h3>Çıkarılan</h3></p>
+<p>N/A</p>
+<p><h3>Değiştirilen</h3></p>
+<p>SSH servisi reload yerine restart edilmeye başlandı.</p>
+
 <p><h2>Sürüm V1.3 - 28 Eylül 2022</h2></p>
 <p><h3>Eklenen</h3></p>
 <p>R81 için httpd-ssl.conf.templ dosyasını düzenleme özelliği eklendi.</p>

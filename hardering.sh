@@ -4,21 +4,21 @@
 # Kullanim:         ./hardering.sh
 # Amaci:            CheckPoint R81 ve R81.10 surumlerinde zayif sertifika tiplerini otomatik kapatma.
 # Sahibi:           Feridun OZTOK
-# Versiyon:         1.3
-# Tarih:            28 Eylul 2022
+# Versiyon:         1.4
+# Tarih:            4 Ekim 2022
 #====================================================================================================
 #Degiskenler
 #====================================================================================================
 source /etc/profile.d/CP.sh
-MEVCUTSURUM="Script Versiyon  : 1.3"
+MEVCUTSURUM="Script Versiyon  : 1.4"
 #====================================================================================================
 #show_version_info Fonksiyon
 #====================================================================================================
 show_version_info()
 {
 	echo ""
-	echo "Script Versiyon  : 1.3"  
-	echo "Script Tarihi    : 28 Eylul 2022"  
+	echo "Script Versiyon  : 1.4"  
+	echo "Script Tarihi    : 4 Ekim 2022"  
 	echo "Son Guncelleyen  : Feridun OZTOK"
 	echo ""
 	exit 0
@@ -146,7 +146,7 @@ echo
 echo
 echo *#######################################################*
 echo *#__________ CheckPoint SSL Hardering Script _________##*
-echo *#____________________ Version 1.3 ___________________##*
+echo *#____________________ Version 1.4 ___________________##*
 echo *#_____________ Creator by Feridun OZTOK _____________##*
 echo *#_ Egis Proje ve Danismanlik Bilisim Hiz. Ltd. Sti. _##*
 echo *#____________ support@egisbilisim.com.tr ____________##*
@@ -275,10 +275,19 @@ sed -i 's/KexAlgorithms +diffie-hellman-group1-sha1/KexAlgorithms +diffie-hellma
 echo "SSH tarafindaki diffie helman group exchange-sha1 exchange-sha256 ile degistiriliyor."
 sed -i 's/KexAlgorithms +diffie-hellman-group-exchange-sha1/KexAlgorithms +diffie-hellman-group-exchange-sha256/' /etc/ssh/templates/sshd_config.templ
 echo
+if [[ "$sistemsurum" == "Klasik" ]]; then
+echo "Sistem R81.10 olmadigi icin CLI da yapilamayan degisiklik dosya uzerinde yapiliyor."
+echo "Ciphers +aes128-cbc kapatiliyor."
+sed -i 's/Ciphers +aes128-cbc/#Ciphers +aes128-cbc/' /etc/ssh/templates/sshd_config.templ
+echo "aes128-cbc yerine chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com aciliyor."
+sed -i '/\#Ciphers +aes128-cbc/a Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com' /etc/ssh/templates/sshd_config.templ
+echo "MACs tarafinda umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512 aktif ediliyor."
+sed -i '/\Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com/a MACs umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512' /etc/ssh/templates/sshd_config.templ
+fi
 /bin/sshd_template_xlate < /config/active
 echo
 echo "ssh servisi yeniden baslatiliyor."
-service sshd reload
+service sshd restart
 echo
 #====================================================================================================
 #Gateway icin cipher_util uyarisi

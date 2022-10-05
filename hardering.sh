@@ -256,6 +256,7 @@ if [[ "$sistemsurum" == "Klasik" ]]; then
 	sed -i 's/SSLCipherSuite HIGH:!RC4:!LOW:!EXP:!aNULL:!SSLv2:!MD5/SSLCipherSuite ECDHE-RSA-AES256-SHA384:AES256-SHA256:!ADH:!EXP:RSA:+HIGH:+MEDIUM:!MD5:!LOW:!NULL:!SSLv2:!eNULL:!aNULL:!RC4:!SHA1/' /web/templates/httpd-ssl.conf.templ
 	echo "SSLv3 TLSv1 TLSv1.1 kapatiliyor."
 	sed -i 's/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2/SSLProtocol -ALL TLSv1.2/' /web/templates/httpd-ssl.conf.templ
+	sed -i 's/SSLProtocol -ALL {ifcmp = $httpd:ssl3_enabled 1}+{else}-{endif}TLSv1.2/SSLProtocol -ALL TLSv1.2/' /web/templates/httpd-ssl.conf.templ
 	echo "httpd-ssl.conf.templ icin yazma yetkisi kaldiriliyor."
 	chmod u-w /web/templates/httpd-ssl.conf.templ
 	/bin/template_xlate : /web/templates/httpd-ssl.conf.templ /web/conf/extra/httpd-ssl.conf < /config/active
@@ -274,11 +275,11 @@ echo "SSH tarafindaki diffie helman group 1 group 14 ile degistiriliyor."
 sed -i 's/KexAlgorithms +diffie-hellman-group1-sha1/KexAlgorithms +diffie-hellman-group14-sha1/' /etc/ssh/templates/sshd_config.templ
 echo "SSH tarafindaki diffie helman group exchange-sha1 exchange-sha256 ile degistiriliyor."
 sed -i 's/KexAlgorithms +diffie-hellman-group-exchange-sha1/KexAlgorithms +diffie-hellman-group-exchange-sha256/' /etc/ssh/templates/sshd_config.templ
+echo "Ciphers +aes128-cbc kapatiliyor."
+sed -i 's/Ciphers +aes128-cbc/#Ciphers +aes128-cbc/' /etc/ssh/templates/sshd_config.templ
 echo
 if [[ "$sistemsurum" == "Klasik" ]]; then
 echo "Sistem R81.10 olmadigi icin CLI da yapilamayan degisiklik dosya uzerinde yapiliyor."
-echo "Ciphers +aes128-cbc kapatiliyor."
-sed -i 's/Ciphers +aes128-cbc/#Ciphers +aes128-cbc/' /etc/ssh/templates/sshd_config.templ
 echo "aes128-cbc yerine chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com aciliyor."
 sed -i '/\#Ciphers +aes128-cbc/a Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com' /etc/ssh/templates/sshd_config.templ
 echo "MACs tarafinda umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512 aktif ediliyor."
@@ -292,7 +293,7 @@ echo
 #====================================================================================================
 #Gateway icin cipher_util uyarisi
 #====================================================================================================
-if [[ "$sistemtip" == "Gateway" ]]; then
+if [[ "$sistemtip" == "Gateway" ]] ; then
 	echo "Gateway uzerinde cipher_util ile ilave bir islem yapmaniz gerekmektedir. Asagida listelenen metotlari kapatmaniz tavsiye edilir."
 	echo "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"
 	echo "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
